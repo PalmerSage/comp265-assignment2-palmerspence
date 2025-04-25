@@ -4,6 +4,9 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { lessons } from './lessonData';
 import * as Speech from 'expo-speech';
 
+// Displays one part of the story at a time
+// Automatically speaks the English sentence out loud on load
+
 export default function StoryScreen() {
   const router = useRouter();
   const { index = 0 } = useLocalSearchParams();
@@ -13,25 +16,26 @@ export default function StoryScreen() {
   const storyPart = lesson.story[i];
 
   useEffect(() => {
-    Speech.speak(storyPart.english);
+    Speech.speak(storyPart.english); // only speaks English cause holy moly did it butcher cree
   }, [i]);
 
   return (
     <View style={styles.container}>
-      {/* Top Image */}
+      {/*  Placeholder image for this part of the story */}
       <View style={styles.imageContainer}>
         <Image
-          source={require('../../../assets/story-placeholder.jpg')} // swap this once you upload your real one
+          source={require('../../../assets/story-placeholder.jpg')}
           style={styles.image}
           resizeMode="contain"
         />
       </View>
 
-      {/* Story Card */}
+      {/*  Story card showing both Cree and English */}
       <View style={styles.card}>
         <Text style={styles.cree}>{storyPart.cree}</Text>
         <Text style={styles.english}>{storyPart.english}</Text>
 
+        {/*  Continue to related question */}
         <TouchableOpacity
           style={styles.button}
           onPress={() => router.push(`/question?index=${i}`)}
@@ -43,11 +47,12 @@ export default function StoryScreen() {
   );
 }
 
+// Styling keeps layout clean, colors consistent with the rest of the app,
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff8be',
-
   },
   imageContainer: {
     flex: 1,

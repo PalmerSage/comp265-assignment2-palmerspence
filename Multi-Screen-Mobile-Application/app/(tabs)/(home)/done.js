@@ -1,25 +1,29 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 
+// Simple "lesson complete" screen
+// Gives user feedback and a way back to Home
+
 export default function DoneScreen() {
   const router = useRouter();
 
   return (
     <View style={styles.container}>
-      {/* Top Image */}
+      {/* Top image for consistency */}
       <View style={styles.imageContainer}>
         <Image
-          source={require('../../../assets/story-placeholder.jpg')} // Replace with final if you want
+          source={require('../../../assets/story-placeholder.jpg')}
           style={styles.image}
           resizeMode="contain"
         />
       </View>
 
-      {/* Lesson Complete Card */}
+      {/* Card with completion text and navigation */}
       <View style={styles.card}>
         <Text style={styles.title}>Lesson Complete!</Text>
         <Text style={styles.subtitle}>Great job finishing the lesson.</Text>
 
+        {/* Button returns user to Home screen */}
         <TouchableOpacity style={styles.button} onPress={() => router.push('/')}>
           <Text style={styles.buttonText}>Back to Home</Text>
         </TouchableOpacity>
@@ -27,6 +31,9 @@ export default function DoneScreen() {
     </View>
   );
 }
+
+// Styling is the same structure as the story and question pages
+// Everything stays visually consistent from start to finish
 
 const styles = StyleSheet.create({
   container: {

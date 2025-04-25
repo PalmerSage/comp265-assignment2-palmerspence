@@ -10,6 +10,9 @@ import {
   Pressable,
 } from 'react-native';
 
+// Profile page for editing name and toggling Night Mode
+// Modal pops up first time user visits
+
 export default function ProfileScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [hasShown, setHasShown] = useState(false);
@@ -29,11 +32,13 @@ export default function ProfileScreen() {
       style={styles.background}
       resizeMode="cover"
     >
+      {/* loverlay when Party Mode (Night Mode) is enabled */}
       {partyMode && <View style={styles.partyOverlay} />}
 
       <View style={styles.content}>
         <Text style={styles.title}>Profile Screen</Text>
 
+        {/* Show name and edit button if user entered one */}
         {name !== '' && (
           <>
             <Text style={styles.welcome}>Welcome back, {name}!</Text>
@@ -43,17 +48,20 @@ export default function ProfileScreen() {
           </>
         )}
 
+        {/* If no name entered yet */}
         {name === '' && (
           <Pressable style={styles.button} onPress={() => setModalVisible(true)}>
             <Text style={styles.buttonText}>Edit Name</Text>
           </Pressable>
         )}
 
+        {/* Switch for enabling/disabling Night Mode */}
         <View style={styles.partyContainer}>
           <Text style={styles.partyLabel}>Enable Night Mode</Text>
           <Switch value={partyMode} onValueChange={setPartyMode} />
         </View>
 
+        {/* Name input modal */}
         <Modal visible={modalVisible} animationType="slide" transparent={true}>
           <View style={styles.modalOverlay}>
             <View style={styles.modalBox}>
@@ -74,6 +82,9 @@ export default function ProfileScreen() {
     </ImageBackground>
   );
 }
+
+// Same visual structure as other screens.
+// Background image, centered content, clean buttons and modal styling.
 
 const styles = StyleSheet.create({
   background: {

@@ -3,6 +3,9 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { lessons } from './lessonData';
 
+// Displays one question per story part
+// Moves user forward if correct, shows a modal if wrong
+
 export default function QuestionScreen() {
   const router = useRouter();
   const { index = 0 } = useLocalSearchParams();
@@ -15,28 +18,28 @@ export default function QuestionScreen() {
 
   const handleCorrect = () => {
     if (i + 1 >= lesson.story.length) {
-      router.push('/done');
+      router.push('/done'); // lesson is finished
     } else {
-      router.push(`/story?index=${i + 1}`);
+      router.push(`/story?index=${i + 1}`); // load next story part
     }
   };
 
   const handleWrong = () => {
-    setShowModal(true);
+    setShowModal(true); // open modal if wrong answer picked
   };
 
   return (
     <View style={styles.container}>
-      {/* Top Image */}
+      {/* Top image showing story context */}
       <View style={styles.imageContainer}>
         <Image
-          source={require('../../../assets/story-placeholder.jpg')} // replace with final image
+          source={require('../../../assets/story-placeholder.jpg')}
           style={styles.image}
           resizeMode="contain"
         />
       </View>
 
-      {/* Question Card */}
+      {/* Question and answer buttons */}
       <View style={styles.card}>
         <Text style={styles.question}>{question.question}</Text>
 
@@ -49,7 +52,7 @@ export default function QuestionScreen() {
         </Pressable>
       </View>
 
-      {/* ❗ Incorrect Answer Modal */}
+      {/* Modal for wrong answers */}
       <Modal visible={showModal} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalBox}>
@@ -63,6 +66,9 @@ export default function QuestionScreen() {
     </View>
   );
 }
+
+// Styling keeps the structure aligned with the story screen
+// Question card floats above background with clear buttons and modal
 
 const styles = StyleSheet.create({
   container: {
