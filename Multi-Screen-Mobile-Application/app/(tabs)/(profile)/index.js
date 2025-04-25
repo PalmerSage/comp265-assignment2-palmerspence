@@ -1,5 +1,14 @@
 import { useState, useEffect } from 'react';
-import { ScrollView, View, Text, StyleSheet, Button, Modal, TextInput, Switch } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Modal,
+  TextInput,
+  Switch,
+  ImageBackground,
+  Pressable,
+} from 'react-native';
 
 export default function ProfileScreen() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -14,79 +23,117 @@ export default function ProfileScreen() {
     }
   }, []);
 
-  const backgroundStyle = partyMode ? styles.partyContainer : styles.container;
-  const textStyle = partyMode ? styles.partyText : styles.text;
-
   return (
-    <ScrollView contentContainerStyle={backgroundStyle}>
-      <Text style={styles.title}>Profile Screen</Text>
+    <ImageBackground
+      source={require('../../../assets/lessonpage.jpg')}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      {partyMode && <View style={styles.partyOverlay} />}
 
-      <Button title="Edit Name" onPress={() => setModalVisible(true)} />
+      <View style={styles.content}>
+        <Text style={styles.title}>Profile Screen</Text>
 
-      {name !== '' && (
-        <Text style={textStyle}>Welcome back, {name}!</Text>
-      )}
+        {name !== '' && (
+          <>
+            <Text style={styles.welcome}>Welcome back, {name}!</Text>
+            <Pressable style={styles.button} onPress={() => setModalVisible(true)}>
+              <Text style={styles.buttonText}>Edit Name</Text>
+            </Pressable>
+          </>
+        )}
 
-      {/* 🎚️ Party Mode Switch */}
-      <View style={styles.switchRow}>
-        <Text style={textStyle}>Enable Party Mode</Text>
-        <Switch value={partyMode} onValueChange={setPartyMode} />
-      </View>
+        {name === '' && (
+          <Pressable style={styles.button} onPress={() => setModalVisible(true)}>
+            <Text style={styles.buttonText}>Edit Name</Text>
+          </Pressable>
+        )}
 
-      {/* Modal with TextInput */}
-      <Modal visible={modalVisible} animationType="slide" transparent={true}>
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalBox}>
-            <Text style={styles.modalTitle}>Enter your name</Text>
-            <TextInput
-              placeholder="Type here"
-              value={name}
-              onChangeText={setName}
-              style={styles.input}
-            />
-            <Button title="Save" onPress={() => setModalVisible(false)} />
-          </View>
+        <View style={styles.partyContainer}>
+          <Text style={styles.partyLabel}>Enable Night Mode</Text>
+          <Switch value={partyMode} onValueChange={setPartyMode} />
         </View>
-      </Modal>
-    </ScrollView>
+
+        <Modal visible={modalVisible} animationType="slide" transparent={true}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalBox}>
+              <Text style={styles.modalTitle}>Enter your name</Text>
+              <TextInput
+                placeholder="Type here"
+                value={name}
+                onChangeText={setName}
+                style={styles.input}
+              />
+              <Pressable style={styles.button} onPress={() => setModalVisible(false)}>
+                <Text style={styles.buttonText}>Save</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    justifyContent: 'center',
+  background: {
+    flex: 1,
+  },
+  partyOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: '#fff176aa',
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  partyContainer: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#ffeb3b',
-  },
-  text: {
-    fontSize: 18,
-    color: '#333',
-    marginVertical: 10,
-  },
-  partyText: {
-    fontSize: 18,
-    color: '#e91e63',
-    marginVertical: 10,
+    paddingTop: 60,
+    paddingHorizontal: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: 'bold',
-    marginBottom: 20,
+    color: '#fff',
+    textShadowColor: '#000',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
+    marginBottom: 30,
   },
-  switchRow: {
-    flexDirection: 'row',
+  welcome: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+    textShadowColor: '#000',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  button: {
+    backgroundColor: '#5C4033',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 10,
+    marginTop: 5,
+    marginBottom: 30,
+  },
+  buttonText: {
+    color: '#F9F6EE',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  partyContainer: {
+    position: 'absolute',
+    bottom: 40,
     alignItems: 'center',
-    marginTop: 30,
-    gap: 12,
+  },
+  partyLabel: {
+    fontSize: 16,
+    color: '#fff',
+    marginBottom: 8,
+    textShadowColor: '#000',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   modalOverlay: {
     flex: 1,

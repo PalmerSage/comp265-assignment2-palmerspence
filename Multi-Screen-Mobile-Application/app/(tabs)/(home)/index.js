@@ -27,10 +27,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingBottom: '20%', // pushes it down about 30%
+    paddingBottom: '20%', 
   },
   button: {
-    backgroundColor: '#5C4033', // beaver brown
+    backgroundColor: '#5C4033', 
     paddingVertical: 18,
     paddingHorizontal: 36,
     borderRadius: 12,
